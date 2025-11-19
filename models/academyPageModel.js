@@ -10,6 +10,13 @@ const programSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const simpleTextItemSchema = new mongoose.Schema(
+  {
+    text: { type: String },
+  },
+  { _id: false }
+);
+
 const academyPageSchema = new mongoose.Schema(
   {
     header: {
@@ -22,6 +29,14 @@ const academyPageSchema = new mongoose.Schema(
       image: imageSchema,
     },
     historyText: { type: String },
+    missionItems: {
+      type: [simpleTextItemSchema],
+      default: [],
+    },
+    activityItems: {
+      type: [simpleTextItemSchema],
+      default: [],
+    },
     programs: {
       type: [programSchema],
       default: [],
@@ -32,6 +47,12 @@ const academyPageSchema = new mongoose.Schema(
     },
     enrollmentInfo: {
       text: { type: String },
+    },
+    contactInfo: {
+      schoolAddress: { type: String },
+      contactNumbers: { type: String },
+      email: { type: String },
+      otherDetails: { type: String },
     },
   },
   { timestamps: true }

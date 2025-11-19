@@ -61,6 +61,7 @@ const addMediaToSection = async (req, res, sectionKey, fieldName) => {
 
     const media = {
       data: base64Data,
+      title: req.body && req.body.title ? req.body.title : req.file.originalname,
       filename: req.file.originalname,
       contentType: req.file.mimetype,
       page: 'resources',

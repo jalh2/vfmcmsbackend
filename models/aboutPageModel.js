@@ -3,11 +3,10 @@ const { imageSchema } = require('./commonSchemas');
 
 const departmentSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String },
     type: {
       type: String,
       enum: ['ministerial', 'administrative', 'functional'],
-      required: true,
     },
     description: { type: String },
     image: imageSchema,
@@ -17,8 +16,8 @@ const departmentSchema = new mongoose.Schema(
 
 const branchSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    location: { type: String, required: true },
+    name: { type: String },
+    location: { type: String },
     isInternational: { type: Boolean, default: false },
   },
   { _id: false }

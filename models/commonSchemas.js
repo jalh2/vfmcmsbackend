@@ -34,7 +34,9 @@ const galleryImageSchema = new mongoose.Schema(
 
 const mediaSchema = new mongoose.Schema(
   {
-    data: { type: String, required: true },
+    data: { type: String },
+    title: { type: String },
+    url: { type: String },
     filename: { type: String },
     contentType: { type: String },
     uploadedAt: { type: Date, default: Date.now },
