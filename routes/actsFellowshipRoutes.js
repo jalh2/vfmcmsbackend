@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getActsFellowshipPage,
   updateActsFellowshipPage,
+  uploadActsOverviewImage,
   uploadActsGalleryImage,
 } = require('../controllers/actsFellowshipController');
 const { protect } = require('../middleware/authMiddleware');
@@ -10,6 +11,7 @@ const { imageUpload } = require('../middleware/uploadMiddleware');
 
 router.get('/', getActsFellowshipPage);
 router.put('/', protect, updateActsFellowshipPage);
+router.post('/overview/image', protect, imageUpload.single('image'), uploadActsOverviewImage);
 router.post('/galleries/upload', protect, imageUpload.single('image'), uploadActsGalleryImage);
 
 module.exports = router;

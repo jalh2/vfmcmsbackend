@@ -25,6 +25,37 @@ const getActsFellowshipPage = async (req, res) => {
   }
 };
 
+const uploadActsOverviewImage = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded.' });
+  }
+
+  try {
+    const base64Data = req.file.buffer.toString('base64');
+
+    const newImage = {
+      data: base64Data,
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+      page: 'acts-fellowship',
+      section: 'overview',
+    };
+
+    const page = await getOrCreateActsFellowshipPage();
+
+    page.overviewImage = newImage;
+
+    await page.save();
+
+    res.status(201).json({
+      message: 'Acts Fellowship overview image uploaded successfully.',
+      overviewImage: page.overviewImage,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 const updateActsFellowshipPage = async (req, res) => {
   try {
     const payload = req.body || {};
@@ -99,5 +130,6 @@ const uploadActsGalleryImage = async (req, res) => {
 module.exports = {
   getActsFellowshipPage,
   updateActsFellowshipPage,
+  uploadActsOverviewImage,
   uploadActsGalleryImage,
 };
