@@ -28,6 +28,7 @@ const clinicPageSchema = new mongoose.Schema(
       type: [galleryImageSchema],
       default: [],
     },
+    challengesText: { type: String },
     contactInfo: {
       address: { type: String },
       phone: { type: String },
