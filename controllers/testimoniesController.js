@@ -83,6 +83,10 @@ const createTestimonyPost = async (req, res) => {
   try {
     const { title, author, description, category, status, isFeatured } = req.body;
 
+    if (!description || !description.trim()) {
+      return res.status(400).json({ message: 'Description is required.' });
+    }
+
     const post = await TestimonyPost.create({
       title,
       author,
@@ -94,6 +98,9 @@ const createTestimonyPost = async (req, res) => {
 
     res.status(201).json(post);
   } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -102,6 +109,10 @@ const updateTestimonyPost = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, author, description, category, status, isFeatured } = req.body;
+
+    if (description !== undefined && (!description || !description.trim())) {
+      return res.status(400).json({ message: 'Description is required.' });
+    }
 
     const post = await TestimonyPost.findById(id);
 
@@ -120,6 +131,9 @@ const updateTestimonyPost = async (req, res) => {
 
     res.json(post);
   } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: 'Server error' });
   }
 };

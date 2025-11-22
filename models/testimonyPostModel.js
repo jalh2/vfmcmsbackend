@@ -3,7 +3,7 @@ const { imageSchema } = require('./commonSchemas');
 
 const testimonyPostSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String },
     author: { type: String },
     description: { type: String, required: true },
     category: {
@@ -16,7 +16,7 @@ const testimonyPostSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['draft', 'published'],
-      default: 'draft',
+      default: 'published',
     },
     isFeatured: { type: Boolean, default: false },
   },
