@@ -168,10 +168,68 @@ const uploadFeaturedProgramImage = async (req, res) => {
   }
 };
 
+const uploadHeaderLogo = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded.' });
+  }
+
+  try {
+    const base64Data = req.file.buffer.toString('base64');
+
+    const newImage = {
+      data: base64Data,
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+      page: 'home',
+      section: 'header-logo',
+    };
+
+    const home = await getOrCreateHomePage();
+
+    if (!home.header) {
+      home.header = { organizationName: DEFAULT_ORG_NAME };
+    }
+
+    home.header.logo = newImage;
+
+    await home.save();
+
+    res.status(201).json({
+      message: 'Header logo uploaded successfully.',
+      header: home.header,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const deleteHeaderLogo = async (req, res) => {
+  try {
+    const home = await getOrCreateHomePage();
+
+    if (!home.header || !home.header.logo) {
+      return res.status(404).json({ message: 'Header logo not found.' });
+    }
+
+    home.header.logo = undefined;
+
+    await home.save();
+
+    return res.json({
+      message: 'Header logo deleted successfully.',
+      header: home.header,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getHomePage,
   updateHomePage,
   uploadHeroImage,
   deleteHeroImage,
   uploadFeaturedProgramImage,
+  uploadHeaderLogo,
+  deleteHeaderLogo,
 };
