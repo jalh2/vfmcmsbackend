@@ -76,10 +76,6 @@ const uploadHeroImage = async (req, res) => {
       home.heroImages = [];
     }
 
-    if (home.heroImages.length >= 4) {
-      home.heroImages.shift();
-    }
-
     home.heroImages.push(newImage);
 
     await home.save();
